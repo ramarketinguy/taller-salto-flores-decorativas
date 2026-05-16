@@ -3,3 +3,5 @@
 !.env.example
 node_modules/
 preview-*.png
+assets/*.jpg
+assets/*.png
