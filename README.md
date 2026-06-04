@@ -27,5 +27,5 @@ PORT=4173
 La pagina post-pago esta disponible en `/gracias`.
 
 Debe configurarse como URL de retorno en Mercado Pago para que, al llegar ahi, dispare el
-evento `Purchase` por Meta Pixel y Conversions API. La pagina tambien muestra los datos para
-enviar comprobante por WhatsApp.
+evento `Purchase` por Meta Pixel y Conversions API. La pagina muestra un mensaje de
+felicitaciones y envia a WhatsApp para registrar a la persona y sumarla al grupo del evento.

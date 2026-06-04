@@ -816,6 +816,15 @@ h3 {
   background: var(--ink);
 }
 
+.thanks-header {
+  grid-template-columns: 1fr;
+}
+
+.thanks-footer {
+  justify-content: center;
+  text-align: center;
+}
+
 .thanks-hero {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(340px, 0.8fr);
