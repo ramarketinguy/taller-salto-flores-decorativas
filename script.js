@@ -99,6 +99,24 @@
     });
   };
 
+  const trackReservationLead = () => {
+    const eventId = createEventId();
+
+    trackMetaEvent({
+      eventName: "Lead",
+      eventId,
+      leadSource: "reservation_cta",
+      dataLayerEvent: "lead_reservation_cta",
+      customData: {
+        currency: "UYU",
+        value: 6050,
+        content_name: "Taller Arte floral en papel de arroz y buttercream",
+        content_category: "Boton reserva cupo",
+        num_items: 1
+      }
+    });
+  };
+
   const openCheckout = () => {
     if (!checkout) {
       return;
@@ -118,7 +136,13 @@
   triggers.forEach((trigger) => {
     trigger.setAttribute("aria-controls", "checkout");
     trigger.setAttribute("aria-expanded", "false");
-    trigger.addEventListener("click", openCheckout);
+    trigger.addEventListener("click", () => {
+      if (trigger.hasAttribute("data-reservation-lead-trigger")) {
+        trackReservationLead();
+      }
+
+      openCheckout();
+    });
   });
 
   paymentLinks.forEach((link) => {
