@@ -6,6 +6,7 @@
     { "src": "styles.css", "use": "@vercel/static" },
     { "src": "script.js", "use": "@vercel/static" },
     { "src": "gracias.js", "use": "@vercel/static" },
+    { "src": "speed-insights.js", "use": "@vercel/static" },
     { "src": "assets/**", "use": "@vercel/static" },
     { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
@@ -16,6 +17,7 @@
     { "src": "/styles.css", "dest": "/styles.css" },
     { "src": "/script.js", "dest": "/script.js" },
     { "src": "/gracias.js", "dest": "/gracias.js" },
+    { "src": "/speed-insights.js", "dest": "/speed-insights.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
