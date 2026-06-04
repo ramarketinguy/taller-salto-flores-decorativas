@@ -69,7 +69,8 @@ module.exports = async function handler(request, response) {
 
   const eventId = typeof body.eventId === "string" ? body.eventId.slice(0, 120) : "";
   const eventName =
-    typeof body.eventName === "string" && ["InitiateCheckout", "Lead"].includes(body.eventName)
+    typeof body.eventName === "string" &&
+    ["InitiateCheckout", "Lead", "Purchase"].includes(body.eventName)
       ? body.eventName
       : "InitiateCheckout";
   const leadSource = typeof body.leadSource === "string" ? body.leadSource.slice(0, 80) : "";

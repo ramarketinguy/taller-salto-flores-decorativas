@@ -104,7 +104,8 @@ const sendMetaCheckoutEvent = async (request, response) => {
 
   const eventId = typeof body.eventId === "string" ? body.eventId.slice(0, 120) : "";
   const eventName =
-    typeof body.eventName === "string" && ["InitiateCheckout", "Lead"].includes(body.eventName)
+    typeof body.eventName === "string" &&
+    ["InitiateCheckout", "Lead", "Purchase"].includes(body.eventName)
       ? body.eventName
       : "InitiateCheckout";
   const leadSource = typeof body.leadSource === "string" ? body.leadSource.slice(0, 80) : "";
@@ -199,7 +200,7 @@ const sendMetaCheckoutEvent = async (request, response) => {
 const serveStatic = (request, response) => {
   const requestUrl = new URL(request.url, `http://${request.headers.host || "localhost"}`);
   const pathname = decodeURIComponent(requestUrl.pathname);
-  const safePath = pathname === "/" ? "/index.html" : pathname;
+  const safePath = pathname === "/" ? "/index.html" : pathname === "/gracias" ? "/gracias.html" : pathname;
   const filePath = path.normalize(path.join(root, safePath));
 
   if (!filePath.startsWith(root)) {

@@ -21,3 +21,11 @@ PORT=4173
 ```
 
 `.env.local` no se versiona para no exponer el token de Meta CAPI.
+
+## Pagina de gracias
+
+La pagina post-pago esta disponible en `/gracias`.
+
+Debe configurarse como URL de retorno en Mercado Pago para que, al llegar ahi, dispare el
+evento `Purchase` por Meta Pixel y Conversions API. La pagina tambien muestra los datos para
+enviar comprobante por WhatsApp.
