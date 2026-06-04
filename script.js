@@ -3,8 +3,13 @@
   const triggers = document.querySelectorAll("[data-checkout-trigger]");
   const paymentLinks = document.querySelectorAll("[data-payment-link]");
   const whatsappLinks = document.querySelectorAll(".whatsapp-button");
+  const lightbox = document.getElementById("image-lightbox");
+  const lightboxImage = document.querySelector("[data-lightbox-image]");
+  const lightboxTriggers = document.querySelectorAll("[data-lightbox-src]");
+  const lightboxCloseButtons = document.querySelectorAll("[data-lightbox-close]");
   const revealItems = document.querySelectorAll(".reveal");
   let checkoutTracked = false;
+  let lastLightboxTrigger = null;
 
   window.dataLayer = window.dataLayer || [];
 
@@ -181,6 +186,48 @@
         }
       });
     });
+  });
+
+  const closeLightbox = () => {
+    if (!lightbox || !lightboxImage) {
+      return;
+    }
+
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxImage.removeAttribute("src");
+    lightboxImage.setAttribute("alt", "");
+    document.body.classList.remove("is-lightbox-open");
+
+    if (lastLightboxTrigger) {
+      lastLightboxTrigger.focus();
+    }
+  };
+
+  lightboxTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      if (!lightbox || !lightboxImage) {
+        return;
+      }
+
+      lastLightboxTrigger = trigger;
+      lightboxImage.src = trigger.dataset.lightboxSrc;
+      lightboxImage.alt = trigger.dataset.lightboxAlt || "";
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.classList.add("is-lightbox-open");
+      lightbox.querySelector(".image-lightbox-close")?.focus();
+    });
+  });
+
+  lightboxCloseButtons.forEach((button) => {
+    button.addEventListener("click", closeLightbox);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && lightbox?.classList.contains("is-open")) {
+      closeLightbox();
+    }
   });
 
   if ("IntersectionObserver" in window) {
