@@ -493,7 +493,7 @@ h3 {
 
 .teacher-proof-card {
   display: grid;
-  grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(220px, 0.56fr) minmax(0, 1.44fr);
   gap: clamp(24px, 4vw, 52px);
   align-items: center;
   padding: clamp(24px, 4vw, 46px);
@@ -507,10 +507,16 @@ h3 {
 }
 
 .teacher-proof-card-alt {
-  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  grid-template-columns: minmax(0, 1.44fr) minmax(220px, 0.56fr);
   background:
     radial-gradient(circle at 90% 12%, rgba(216, 94, 120, 0.15), transparent 18rem),
     linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(246, 217, 223, 0.44));
+}
+
+.teacher-proof-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .teacher-proof-card-alt .teacher-proof-copy {
@@ -527,8 +533,8 @@ h3 {
 }
 
 .teacher-proof-copy h3 {
-  margin-bottom: 18px;
-  font-size: clamp(2.4rem, 4vw, 4.2rem);
+  margin-bottom: 24px;
+  font-size: clamp(2.2rem, 3.2vw, 3.7rem);
 }
 
 .teacher-proof-copy p {
@@ -537,6 +543,38 @@ h3 {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.75;
+}
+
+.instagram-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 20px;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-decoration: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--rose-deep), var(--rose));
+  box-shadow: 0 16px 34px rgba(157, 47, 82, 0.22);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.instagram-button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.instagram-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 42px rgba(157, 47, 82, 0.28);
 }
 
 .teacher-work-grid {
