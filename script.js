@@ -24,9 +24,12 @@
     return `checkout-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   };
 
-  const sendCheckoutToConversionsApi = (eventId) => {
+  const sendEventToConversionsApi = ({ eventId, eventName, leadSource, customData }) => {
     const payload = {
       eventId,
+      eventName,
+      leadSource,
+      customData,
       sourceUrl: window.location.href,
       fbp: getCookie("_fbp"),
       fbc: getCookie("_fbc")
@@ -46,10 +49,31 @@
       })
       .catch(() => {
         window.dataLayer.push({
-          event: "capi_checkout_error",
+          event: "capi_event_error",
+          event_name: eventName,
           item_name: "Taller Arte floral en papel de arroz y buttercream"
         });
       });
+  };
+
+  const trackMetaEvent = ({ eventName, eventId, leadSource, dataLayerEvent, customData }) => {
+    if (typeof window.fbq === "function") {
+      window.fbq("track", eventName, customData, { eventID: eventId });
+    }
+
+    window.dataLayer.push({
+      event: dataLayerEvent,
+      event_id: eventId,
+      lead_source: leadSource,
+      ...customData
+    });
+
+    sendEventToConversionsApi({
+      eventId,
+      eventName,
+      leadSource,
+      customData
+    });
   };
 
   const trackCheckout = () => {
@@ -60,30 +84,19 @@
     checkoutTracked = true;
     const eventId = createEventId();
 
-    if (typeof window.fbq === "function") {
-      window.fbq(
-        "track",
-        "InitiateCheckout",
-        {
-          currency: "UYU",
-          value: 6050,
-          content_name: "Taller Arte floral en papel de arroz y buttercream",
-          content_category: "Seminario presencial",
-          num_items: 1
-        },
-        { eventID: eventId }
-      );
-    }
-
-    window.dataLayer.push({
-      event: "begin_checkout",
-      event_id: eventId,
-      currency: "UYU",
-      value: 6050,
-      item_name: "Taller Arte floral en papel de arroz y buttercream"
+    trackMetaEvent({
+      eventName: "InitiateCheckout",
+      eventId,
+      leadSource: "checkout_section",
+      dataLayerEvent: "begin_checkout",
+      customData: {
+        currency: "UYU",
+        value: 6050,
+        content_name: "Taller Arte floral en papel de arroz y buttercream",
+        content_category: "Seminario presencial",
+        num_items: 1
+      }
     });
-
-    sendCheckoutToConversionsApi(eventId);
   };
 
   const openCheckout = () => {
@@ -110,36 +123,38 @@
 
   paymentLinks.forEach((link) => {
     link.addEventListener("click", () => {
-      if (typeof window.fbq === "function") {
-        window.fbq("track", "AddPaymentInfo", {
+      const eventId = createEventId();
+
+      trackMetaEvent({
+        eventName: "Lead",
+        eventId,
+        leadSource: "mercado_pago",
+        dataLayerEvent: "lead_mercado_pago",
+        customData: {
           currency: "UYU",
           value: 6050,
-          content_name: "Taller Arte floral en papel de arroz y buttercream"
-        });
-      }
-
-      window.dataLayer.push({
-        event: "add_payment_info",
-        payment_type: "Mercado Pago",
-        currency: "UYU",
-        value: 6050
+          content_name: "Taller Arte floral en papel de arroz y buttercream",
+          content_category: "Mercado Pago",
+          payment_type: "Mercado Pago"
+        }
       });
     });
   });
 
   whatsappLinks.forEach((link) => {
     link.addEventListener("click", () => {
-      if (typeof window.fbq === "function") {
-        window.fbq("track", "Contact", {
-          content_name: "Consulta WhatsApp taller floral",
-          content_category: "WhatsApp"
-        });
-      }
+      const eventId = createEventId();
 
-      window.dataLayer.push({
-        event: "whatsapp_click",
-        link_url: link.href,
-        item_name: "Taller Arte floral en papel de arroz y buttercream"
+      trackMetaEvent({
+        eventName: "Lead",
+        eventId,
+        leadSource: "whatsapp_comprobante",
+        dataLayerEvent: "lead_whatsapp_comprobante",
+        customData: {
+          content_name: "Consulta WhatsApp taller floral",
+          content_category: "WhatsApp comprobante",
+          link_url: link.href
+        }
       });
     });
   });

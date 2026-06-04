@@ -103,6 +103,12 @@ const sendMetaCheckoutEvent = async (request, response) => {
   }
 
   const eventId = typeof body.eventId === "string" ? body.eventId.slice(0, 120) : "";
+  const eventName =
+    typeof body.eventName === "string" && ["InitiateCheckout", "Lead"].includes(body.eventName)
+      ? body.eventName
+      : "InitiateCheckout";
+  const leadSource = typeof body.leadSource === "string" ? body.leadSource.slice(0, 80) : "";
+  const customData = body.customData && typeof body.customData === "object" ? body.customData : {};
   const sourceUrl =
     typeof body.sourceUrl === "string" && body.sourceUrl.startsWith("http")
       ? body.sourceUrl
@@ -131,7 +137,7 @@ const sendMetaCheckoutEvent = async (request, response) => {
   const payload = {
     data: [
       {
-        event_name: "InitiateCheckout",
+        event_name: eventName,
         event_time: Math.floor(Date.now() / 1000),
         event_id: eventId,
         action_source: "website",
@@ -142,7 +148,9 @@ const sendMetaCheckoutEvent = async (request, response) => {
           value: 6050,
           content_name: "Taller Arte floral en papel de arroz y buttercream",
           content_category: "Seminario presencial",
-          num_items: 1
+          num_items: 1,
+          lead_source: leadSource,
+          ...customData
         }
       }
     ]
