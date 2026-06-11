@@ -9,6 +9,7 @@
   const lightboxCloseButtons = document.querySelectorAll("[data-lightbox-close]");
   const revealItems = document.querySelectorAll(".reveal");
   let checkoutTracked = false;
+  let checkoutLeadTracked = false;
   let lastLightboxTrigger = null;
 
   window.dataLayer = window.dataLayer || [];
@@ -105,18 +106,23 @@
   };
 
   const trackReservationLead = () => {
+    if (checkoutLeadTracked) {
+      return;
+    }
+
+    checkoutLeadTracked = true;
     const eventId = createEventId();
 
     trackMetaEvent({
       eventName: "Lead",
       eventId,
       leadSource: "reservation_cta",
-      dataLayerEvent: "lead_reservation_cta",
+      dataLayerEvent: "lead_price_reveal",
       customData: {
         currency: "UYU",
         value: 6050,
         content_name: "Taller Arte floral en papel de arroz y buttercream",
-        content_category: "Boton reserva cupo",
+        content_category: "Precios revelados",
         num_items: 1
       }
     });
@@ -134,6 +140,7 @@
     triggers.forEach((trigger) => {
       trigger.setAttribute("aria-expanded", "true");
     });
+    trackReservationLead();
     trackCheckout();
     checkout.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -142,10 +149,6 @@
     trigger.setAttribute("aria-controls", "checkout");
     trigger.setAttribute("aria-expanded", "false");
     trigger.addEventListener("click", () => {
-      if (trigger.hasAttribute("data-reservation-lead-trigger")) {
-        trackReservationLead();
-      }
-
       openCheckout();
     });
   });
@@ -153,19 +156,24 @@
   paymentLinks.forEach((link) => {
     link.addEventListener("click", () => {
       const eventId = createEventId();
+      const productValue = Number(link.dataset.productValue);
+      const customData = {
+        content_name: link.dataset.productName || "Taller Arte floral en papel de arroz y buttercream",
+        content_category: link.dataset.productCategory || "Mercado Pago",
+        payment_type: "Mercado Pago"
+      };
+
+      if (Number.isFinite(productValue) && productValue > 0) {
+        customData.currency = "UYU";
+        customData.value = productValue;
+      }
 
       trackMetaEvent({
         eventName: "Lead",
         eventId,
         leadSource: "mercado_pago",
         dataLayerEvent: "lead_mercado_pago",
-        customData: {
-          currency: "UYU",
-          value: 6050,
-          content_name: "Taller Arte floral en papel de arroz y buttercream",
-          content_category: "Mercado Pago",
-          payment_type: "Mercado Pago"
-        }
+        customData
       });
     });
   });

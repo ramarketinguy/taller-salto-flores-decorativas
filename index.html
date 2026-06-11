@@ -369,12 +369,12 @@
         <div>
           <h2>Reservá tu lugar en el taller</h2>
           <p>
-            Al tocar el botón vas a ver las dos formas de pago: Mercado Pago hasta en 12 cuotas
-            o transferencia con descuento. El taller incluye todos los materiales y combina
-            demostración con práctica real.
+            Al tocar el botón vas a poder elegir la jornada completa o reservar uno de los dos
+            talleres por separado. El taller incluye todos los materiales y combina demostración
+            con práctica real.
           </p>
         </div>
-        <button class="primary-button" type="button" data-checkout-trigger data-reservation-lead-trigger>
+        <button class="primary-button" type="button" data-checkout-trigger>
           Ver precio y reservar cupo
         </button>
       </section>
@@ -384,30 +384,78 @@
           <div class="checkout-head">
             <span class="checkout-label">Reserva del cupo</span>
             <strong class="included-badge">Materiales incluidos</strong>
-            <h2>Elegí cómo pagar</h2>
+            <h2>Elegí tu experiencia</h2>
             <p>
-              Taller demostrativo y práctico: vas a crear tus propias flores. Todos los
-              materiales están incluidos.
+              Podés vivir la jornada completa o reservar uno de los talleres por separado.
+              Todas las opciones son demostrativas y prácticas, con materiales incluidos.
             </p>
           </div>
 
-          <article class="price-card mercado-card">
-            <span>Mercado Pago</span>
-            <h3>$6050</h3>
-            <p>Pago online disponible y hasta 12 cuotas a través de Mercado Pago.</p>
-            <a
-              class="mercadopago-button"
-              href="https://mpago.la/1qefyCH"
-              data-payment-link
-              target="_blank"
-              rel="noopener"
-            >
-              Pagar por Mercado Pago
-            </a>
-          </article>
+          <div class="checkout-options" aria-label="Opciones de talleres">
+            <article class="price-card mercado-card featured-price-card">
+              <span>Jornada completa · 10 a 20:30 hs</span>
+              <h3>$6050</h3>
+              <p>
+                Incluye Flores de papel y Flores en buttercream. Pago online hasta en 12 cuotas
+                por Mercado Pago.
+              </p>
+              <a
+                class="mercadopago-button"
+                href="https://mpago.la/1qefyCH"
+                data-payment-link
+                data-product-name="Jornada completa: papel de arroz y buttercream"
+                data-product-category="Jornada completa"
+                data-product-value="6050"
+                target="_blank"
+                rel="noopener"
+              >
+                Reservar jornada completa
+              </a>
+            </article>
+
+            <article class="price-card individual-card paper-card">
+              <span>Taller individual · 10 a 14 hs</span>
+              <h3>Flores de papel</h3>
+              <p>
+                Reservá únicamente el bloque de flores de papel de arroz, con práctica y
+                materiales incluidos.
+              </p>
+              <a
+                class="individual-payment-button"
+                href="https://mpago.la/1r5vUzB"
+                data-payment-link
+                data-product-name="Taller individual: Flores de papel"
+                data-product-category="Taller individual"
+                target="_blank"
+                rel="noopener"
+              >
+                Reservar Flores de papel
+              </a>
+            </article>
+
+            <article class="price-card individual-card buttercream-card">
+              <span>Taller individual · 15 a 20:30 hs</span>
+              <h3>Flores en buttercream</h3>
+              <p>
+                Reservá únicamente el bloque de flores en buttercream, con práctica y materiales
+                incluidos.
+              </p>
+              <a
+                class="individual-payment-button"
+                href="https://mpago.la/1TFJSZR"
+                data-payment-link
+                data-product-name="Taller individual: Flores en buttercream"
+                data-product-category="Taller individual"
+                target="_blank"
+                rel="noopener"
+              >
+                Reservar Flores en buttercream
+              </a>
+            </article>
+          </div>
 
           <article class="price-card transfer-card">
-            <span>Transferencia con descuento</span>
+            <span>Jornada completa · transferencia con descuento</span>
             <h3>$5600</h3>
             <p>Cta Itaú caja ahorro pesos 5004305<br>A nombre de Laura Fuentes</p>
             <a

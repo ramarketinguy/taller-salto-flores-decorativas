@@ -24,6 +24,42 @@
     return `purchase-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   };
 
+  const getPurchaseData = () => {
+    const params = new URLSearchParams(window.location.search);
+    const paymentId = params.get("payment_id") || params.get("collection_id");
+    const status = params.get("status") || params.get("collection_status");
+    const product = params.get("product") || "jornada-completa";
+    const transactionAmount = Number(params.get("transaction_amount"));
+
+    if (!paymentId || (status && status !== "approved")) {
+      return null;
+    }
+
+    const products = {
+      "jornada-completa": {
+        value: 6050,
+        content_name: "Jornada completa: papel de arroz y buttercream",
+        content_category: "Jornada completa"
+      },
+      papel: {
+        content_name: "Taller individual: Flores de papel",
+        content_category: "Taller individual"
+      },
+      buttercream: {
+        content_name: "Taller individual: Flores en buttercream",
+        content_category: "Taller individual"
+      }
+    };
+
+    const purchase = products[product] || products["jornada-completa"];
+
+    if (Number.isFinite(transactionAmount) && transactionAmount > 0) {
+      purchase.value = transactionAmount;
+    }
+
+    return purchase.value ? purchase : null;
+  };
+
   const sendPurchaseToConversionsApi = ({ eventId, customData }) => {
     window
       .fetch("/api/meta-capi/checkout", {
@@ -54,34 +90,35 @@
       });
   };
 
-  const eventId = createEventId();
-  const storageKey = `purchase_tracked:${eventId}`;
+  const purchaseData = getPurchaseData();
 
-  if (!window.sessionStorage.getItem(storageKey)) {
+  if (purchaseData) {
+    const eventId = createEventId();
+    const storageKey = `purchase_tracked:${eventId}`;
     const customData = {
       currency: "UYU",
-      value: 6050,
-      content_name: "Taller Arte floral en papel de arroz y buttercream",
-      content_category: "Seminario presencial",
-      num_items: 1
+      num_items: 1,
+      ...purchaseData
     };
 
-    if (typeof window.fbq === "function") {
-      window.fbq("track", "Purchase", customData, { eventID: eventId });
+    if (!window.sessionStorage.getItem(storageKey)) {
+      if (typeof window.fbq === "function") {
+        window.fbq("track", "Purchase", customData, { eventID: eventId });
+      }
+
+      window.dataLayer.push({
+        event: "purchase",
+        event_id: eventId,
+        ...customData
+      });
+
+      sendPurchaseToConversionsApi({
+        eventId,
+        customData
+      });
+
+      window.sessionStorage.setItem(storageKey, "1");
     }
-
-    window.dataLayer.push({
-      event: "purchase",
-      event_id: eventId,
-      ...customData
-    });
-
-    sendPurchaseToConversionsApi({
-      eventId,
-      customData
-    });
-
-    window.sessionStorage.setItem(storageKey, "1");
   }
 
   const revealItems = document.querySelectorAll(".reveal");

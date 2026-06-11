@@ -145,8 +145,6 @@ const sendMetaCheckoutEvent = async (request, response) => {
         event_source_url: sourceUrl,
         user_data: userData,
         custom_data: {
-          currency: "UYU",
-          value: 6050,
           content_name: "Taller Arte floral en papel de arroz y buttercream",
           content_category: "Seminario presencial",
           num_items: 1,
