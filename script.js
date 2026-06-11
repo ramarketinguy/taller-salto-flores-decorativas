@@ -157,15 +157,28 @@
     link.addEventListener("click", () => {
       const eventId = createEventId();
       const productValue = Number(link.dataset.productValue);
-      const customData = {
+      const pendingPurchase = {
+        product: link.dataset.productKey || "",
         content_name: link.dataset.productName || "Taller Arte floral en papel de arroz y buttercream",
         content_category: link.dataset.productCategory || "Mercado Pago",
+        created_at: Date.now()
+      };
+      const customData = {
+        content_name: pendingPurchase.content_name,
+        content_category: pendingPurchase.content_category,
         payment_type: "Mercado Pago"
       };
 
       if (Number.isFinite(productValue) && productValue > 0) {
         customData.currency = "UYU";
         customData.value = productValue;
+        pendingPurchase.value = productValue;
+      }
+
+      try {
+        window.localStorage.setItem("pending_taller_purchase", JSON.stringify(pendingPurchase));
+      } catch {
+        // Tracking still proceeds when storage is unavailable.
       }
 
       trackMetaEvent({

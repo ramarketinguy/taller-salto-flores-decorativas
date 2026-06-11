@@ -28,10 +28,22 @@
     const params = new URLSearchParams(window.location.search);
     const paymentId = params.get("payment_id") || params.get("collection_id");
     const status = params.get("status") || params.get("collection_status");
-    const product = params.get("product") || "jornada-completa";
+    let pendingPurchase = null;
+
+    try {
+      pendingPurchase = JSON.parse(window.localStorage.getItem("pending_taller_purchase") || "null");
+    } catch {
+      pendingPurchase = null;
+    }
+
+    const pendingIsRecent =
+      pendingPurchase &&
+      Number.isFinite(pendingPurchase.created_at) &&
+      Date.now() - pendingPurchase.created_at < 24 * 60 * 60 * 1000;
+    const product = params.get("product") || (pendingIsRecent ? pendingPurchase.product : "");
     const transactionAmount = Number(params.get("transaction_amount"));
 
-    if (!paymentId || (status && status !== "approved")) {
+    if (!paymentId || (status && status !== "approved") || (!product && !pendingIsRecent)) {
       return null;
     }
 
@@ -51,7 +63,14 @@
       }
     };
 
-    const purchase = products[product] || products["jornada-completa"];
+    const purchase = products[product] || {
+      content_name: pendingPurchase.content_name,
+      content_category: pendingPurchase.content_category
+    };
+
+    if (pendingIsRecent && Number.isFinite(pendingPurchase.value) && pendingPurchase.value > 0) {
+      purchase.value = pendingPurchase.value;
+    }
 
     if (Number.isFinite(transactionAmount) && transactionAmount > 0) {
       purchase.value = transactionAmount;
@@ -118,6 +137,7 @@
       });
 
       window.sessionStorage.setItem(storageKey, "1");
+      window.localStorage.removeItem("pending_taller_purchase");
     }
   }
 
