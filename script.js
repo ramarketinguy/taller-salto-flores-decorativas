@@ -3,6 +3,9 @@
   const triggers = document.querySelectorAll("[data-checkout-trigger]");
   const paymentLinks = document.querySelectorAll("[data-payment-link]");
   const whatsappLinks = document.querySelectorAll(".whatsapp-button");
+  const workshopModal = document.getElementById("workshop-modal");
+  const workshopModalOpenButtons = document.querySelectorAll("[data-workshop-modal-open]");
+  const workshopModalCloseButtons = document.querySelectorAll("[data-workshop-modal-close]");
   const lightbox = document.getElementById("image-lightbox");
   const lightboxImage = document.querySelector("[data-lightbox-image]");
   const lightboxTriggers = document.querySelectorAll("[data-lightbox-src]");
@@ -11,6 +14,7 @@
   let checkoutTracked = false;
   let checkoutLeadTracked = false;
   let lastLightboxTrigger = null;
+  let lastWorkshopModalTrigger = null;
 
   window.dataLayer = window.dataLayer || [];
 
@@ -198,15 +202,44 @@
       trackMetaEvent({
         eventName: "Lead",
         eventId,
-        leadSource: "whatsapp_comprobante",
-        dataLayerEvent: "lead_whatsapp_comprobante",
+        leadSource: link.dataset.whatsappSource || "whatsapp",
+        dataLayerEvent: "lead_whatsapp",
         customData: {
-          content_name: "Consulta WhatsApp taller floral",
-          content_category: "WhatsApp comprobante",
+          content_name: link.dataset.whatsappName || "Consulta WhatsApp taller floral",
+          content_category: link.dataset.whatsappCategory || "WhatsApp",
           link_url: link.href
         }
       });
     });
+  });
+
+  const closeWorkshopModal = () => {
+    if (!workshopModal) {
+      return;
+    }
+
+    workshopModal.classList.remove("is-open");
+    workshopModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("is-workshop-modal-open");
+    lastWorkshopModalTrigger?.focus();
+  };
+
+  workshopModalOpenButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!workshopModal) {
+        return;
+      }
+
+      lastWorkshopModalTrigger = button;
+      workshopModal.classList.add("is-open");
+      workshopModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("is-workshop-modal-open");
+      workshopModal.querySelector(".workshop-modal-close")?.focus();
+    });
+  });
+
+  workshopModalCloseButtons.forEach((button) => {
+    button.addEventListener("click", closeWorkshopModal);
   });
 
   const closeLightbox = () => {
@@ -246,6 +279,11 @@
   });
 
   document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && workshopModal?.classList.contains("is-open")) {
+      closeWorkshopModal();
+      return;
+    }
+
     if (event.key === "Escape" && lightbox?.classList.contains("is-open")) {
       closeLightbox();
     }

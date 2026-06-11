@@ -414,46 +414,17 @@
               </a>
             </article>
 
-            <article class="price-card individual-card paper-card">
-              <span>Taller individual · 10 a 14 hs</span>
-              <h3>Flores de papel</h3>
+            <article class="price-card individual-card individual-summary-card">
+              <span>Talleres individuales</span>
+              <h3>$3500</h3>
+              <strong class="price-subline">$3200 por transferencia</strong>
               <p>
-                Reservá únicamente el bloque de flores de papel de arroz, con práctica y
-                materiales incluidos.
+                Flores de papel de 10 a 14 hs o Flores en buttercream de 15 a 20:30 hs.
+                Mercado Pago hasta en 12 cuotas.
               </p>
-              <a
-                class="individual-payment-button"
-                href="https://mpago.la/1r5vUzB"
-                data-payment-link
-                data-product-name="Taller individual: Flores de papel"
-                data-product-category="Taller individual"
-                data-product-key="papel"
-                target="_blank"
-                rel="noopener"
-              >
-                Reservar Flores de papel
-              </a>
-            </article>
-
-            <article class="price-card individual-card buttercream-card">
-              <span>Taller individual · 15 a 20:30 hs</span>
-              <h3>Flores en buttercream</h3>
-              <p>
-                Reservá únicamente el bloque de flores en buttercream, con práctica y materiales
-                incluidos.
-              </p>
-              <a
-                class="individual-payment-button"
-                href="https://mpago.la/1TFJSZR"
-                data-payment-link
-                data-product-name="Taller individual: Flores en buttercream"
-                data-product-category="Taller individual"
-                data-product-key="buttercream"
-                target="_blank"
-                rel="noopener"
-              >
-                Reservar Flores en buttercream
-              </a>
+              <button class="individual-payment-button" type="button" data-workshop-modal-open>
+                Elegí tu taller
+              </button>
             </article>
           </div>
 
@@ -464,12 +435,25 @@
             <a
               class="whatsapp-button"
               href="https://wa.me/59894252752?text=Hola%2C%20quiero%20reservar%20mi%20cupo%20para%20el%20taller%20Arte%20floral%20en%20papel%20de%20arroz%20y%20buttercream.%20Pagu%C3%A9%20por%20Mercado%20Pago%20o%20transferencia%20y%20te%20env%C3%ADo%20mi%20comprobante."
+              data-whatsapp-source="whatsapp_comprobante_jornada"
+              data-whatsapp-name="Comprobante jornada completa"
+              data-whatsapp-category="WhatsApp comprobante"
               target="_blank"
               rel="noopener"
             >
               Enviar comprobante por WhatsApp
             </a>
-            <small>Dudas y comprobantes: +598 94 252 752</small>
+            <a
+              class="doubts-button whatsapp-button"
+              href="https://wa.me/59894252752?text=Hola%2C%20tengo%20una%20consulta%20sobre%20el%20Taller%20Floral%20en%20Salto."
+              data-whatsapp-source="whatsapp_dudas"
+              data-whatsapp-name="Consulta sobre el taller"
+              data-whatsapp-category="WhatsApp dudas"
+              target="_blank"
+              rel="noopener"
+            >
+              Tengo dudas
+            </a>
           </article>
         </div>
       </section>
@@ -483,6 +467,96 @@
     <button class="mobile-sticky-cta" type="button" data-checkout-trigger>
       Ver precio y reservar
     </button>
+
+    <div class="workshop-modal" id="workshop-modal" aria-hidden="true">
+      <button class="workshop-modal-backdrop" type="button" data-workshop-modal-close aria-label="Cerrar opciones de talleres"></button>
+      <div class="workshop-modal-panel" role="dialog" aria-modal="true" aria-labelledby="workshop-modal-title">
+        <button class="workshop-modal-close" type="button" data-workshop-modal-close aria-label="Cerrar">×</button>
+        <div class="workshop-modal-head">
+          <span class="checkout-label">Talleres individuales</span>
+          <h2 id="workshop-modal-title">Elegí tu taller</h2>
+          <p>$3500 por Mercado Pago hasta en 12 cuotas o $3200 por transferencia.</p>
+        </div>
+
+        <div class="workshop-modal-options">
+          <article class="modal-workshop-card paper-card">
+            <span>10 a 14 hs</span>
+            <h3>Flores de papel</h3>
+            <p>Práctica de flores en papel de arroz con todos los materiales incluidos.</p>
+            <a
+              class="mercadopago-button"
+              href="https://mpago.la/1r5vUzB"
+              data-payment-link
+              data-product-name="Taller individual: Flores de papel"
+              data-product-category="Taller individual"
+              data-product-key="papel"
+              data-product-value="3500"
+              target="_blank"
+              rel="noopener"
+            >
+              Pagar $3500 en cuotas
+            </a>
+            <a
+              class="whatsapp-button"
+              href="https://wa.me/59894252752?text=Hola%2C%20reserv%C3%A9%20el%20taller%20individual%20de%20Flores%20de%20papel%20por%20transferencia.%20Te%20env%C3%ADo%20el%20comprobante%20de%20%243200."
+              data-whatsapp-source="whatsapp_comprobante_papel"
+              data-whatsapp-name="Comprobante Taller Flores de papel"
+              data-whatsapp-category="WhatsApp comprobante individual"
+              target="_blank"
+              rel="noopener"
+            >
+              Enviar comprobante de $3200
+            </a>
+          </article>
+
+          <article class="modal-workshop-card buttercream-card">
+            <span>15 a 20:30 hs</span>
+            <h3>Flores en buttercream</h3>
+            <p>Práctica de flores en buttercream con todos los materiales incluidos.</p>
+            <a
+              class="mercadopago-button"
+              href="https://mpago.la/1TFJSZR"
+              data-payment-link
+              data-product-name="Taller individual: Flores en buttercream"
+              data-product-category="Taller individual"
+              data-product-key="buttercream"
+              data-product-value="3500"
+              target="_blank"
+              rel="noopener"
+            >
+              Pagar $3500 en cuotas
+            </a>
+            <a
+              class="whatsapp-button"
+              href="https://wa.me/59894252752?text=Hola%2C%20reserv%C3%A9%20el%20taller%20individual%20de%20Flores%20en%20buttercream%20por%20transferencia.%20Te%20env%C3%ADo%20el%20comprobante%20de%20%243200."
+              data-whatsapp-source="whatsapp_comprobante_buttercream"
+              data-whatsapp-name="Comprobante Taller Flores en buttercream"
+              data-whatsapp-category="WhatsApp comprobante individual"
+              target="_blank"
+              rel="noopener"
+            >
+              Enviar comprobante de $3200
+            </a>
+          </article>
+        </div>
+
+        <div class="workshop-transfer-details">
+          <strong>Datos para transferencia</strong>
+          <span>Cta Itaú caja ahorro pesos 5004305 · A nombre de Laura Fuentes</span>
+          <a
+            class="doubts-button whatsapp-button"
+            href="https://wa.me/59894252752?text=Hola%2C%20tengo%20una%20consulta%20sobre%20los%20talleres%20individuales%20del%20Taller%20Floral%20en%20Salto."
+            data-whatsapp-source="whatsapp_dudas_individuales"
+            data-whatsapp-name="Consulta sobre talleres individuales"
+            data-whatsapp-category="WhatsApp dudas"
+            target="_blank"
+            rel="noopener"
+          >
+            Tengo dudas
+          </a>
+        </div>
+      </div>
+    </div>
 
     <div class="image-lightbox" id="image-lightbox" aria-hidden="true">
       <button class="image-lightbox-backdrop" type="button" data-lightbox-close aria-label="Cerrar imagen ampliada"></button>
